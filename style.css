@@ -2,15 +2,21 @@
 
 html {
   box-sizing: border-box;
+  /* overflow: hidden; */
 }
 
 body{
   margin: 0;
   background:#45Badd;
+  display: flex;
+  flex-direction: column;
+  align-items:baseline
+  justify-content: center;
+  
 }
 
 .container{
-  height: 100vh;
+  height: 80vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -20,6 +26,21 @@ body{
   background-size: contain;
   background-position: left center;
   background-repeat: no-repeat; 
+}
+
+.containerText{
+  background: black;
+  color: white;
+  width: auto;
+  border-radius:6px;
+
+}
+.containerText2{
+  background: black;
+  color: white;
+  width: auto;
+  border-radius:6px;
+
 }
 
 button{
@@ -47,6 +68,7 @@ button:disabled{
   cursor:default;
   filter: brightness(30%);
 }
+
 
 
 

@@ -1,5 +1,20 @@
 const button = document.getElementById('button');
 const audio = document.getElementById('audio');
+const textAnim1 = document.getElementById('textAnim1');
+const textAnim2 = document.getElementById('textAnim2');
+
+const phrases = [];
+const answers = [];
+
+
+let i = 0;
+let j = 0;
+let k = 0;
+let m = 0;
+let currentPhase = [];
+let currentAnswer = [];
+
+
 
 
 //? VoiceRSS Javascript SDK
@@ -24,29 +39,92 @@ function tellMe(joke) {
         ssml: false
     });
 }
+// !Awaiting Function
+function resolveAfter5Seconds() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve('resolved');
+        }, 5000);
+    });
+}
 //? Get Jokes from API
 async function getJokes() {
 
     const apiUrl = 'https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist'
     try {
+
         const response = await fetch(apiUrl);
         const data = await response.json();
         if (data.setup) {
             joke = `${data.setup} ... ${data.delivery}`;
+            text1 = `${data.setup}`
+            text2 = `${data.delivery}`
+
+
+            phrases.push(text1);
+            answers.push(text2);
+
+            function looptext1() {
+                textAnim1.innerHTML = currentPhase.join('')
+                if (k < phrases.length) {
+                    if (m <= phrases[k].length) {
+                        currentPhase.push(phrases[k][m])
+
+                        m++
+                    }
+                    if (m == phrases[k].length) {
+                        k++
+                    }
+                }
+                setTimeout(looptext1, 80)
+
+                async function looptext2() {
+
+                    textAnim2.innerHTML = currentAnswer.join('')
+                    if (i < answers.length) {
+                        if (j <= answers[i].length) {
+                            currentAnswer.push(answers[i][j])
+
+                            j++
+                        }
+                        if (j == answers[i].length) {
+                            i++
+                        }
+                    }
+                } setTimeout(looptext2, 80)
+
+
+
+            }
+            looptext1();
+
+            looptext2();
+
+
+
         } else {
             joke = data.joke;
         }
         toggleButton();
         tellMe(joke);
+
     } catch (error) {
         console.log('Whoops', error);
 
     }
 }
+
+
+
+
 //? EventListeners
 
 button.addEventListener('click', getJokes);
 audio.addEventListener('ended', toggleButton);
+
+
+
+
 
 
 
